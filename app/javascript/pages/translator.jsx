@@ -87,19 +87,13 @@ export default class Translator extends React.Component {
     return (
       <form className="form">
         <div className="left-form">
-          <SelectLangs 
-            langs={this.state.langs} 
-            tabindex="1" 
-            value={this.state.from} 
+          <SelectLangs
+            langs={this.state.langs}
+            value={this.state.from}
             onChange={this.handleSelectFrom}
           />
-          <textarea 
-            className="from-input input" 
-            tabindex="2" 
-            autocorrect="off"
-            autocomplete="off" 
-            autocapitalize="off" 
-            spellcheck="false"
+          <textarea
+            className="from-input input"
             placeholder="Введите текст"
             value={this.state.text}
             onChange={this.handleChange}
@@ -108,19 +102,13 @@ export default class Translator extends React.Component {
         </div>
 
         <div className="rigth-form">
-          <SelectLangs 
-            langs={this.state.langs} 
-            tabindex="3"
-            value={this.state.to} 
+          <SelectLangs
+            langs={this.state.langs}
+            value={this.state.to}
             onChange={this.handleSelectTo}
           />
-          <textarea 
-            className="to-input input" 
-            tabindex="4" 
-            autocorrect="off"
-            autocomplete="off" 
-            autocapitalize="off" 
-            spellcheck="false"
+          <textarea
+            className="to-input input"
             value={this.state.result}
             placeholder="Тут будет перевод"
           >
