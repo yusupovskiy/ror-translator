@@ -32,10 +32,6 @@ export default class App extends React.Component {
     if(this.timeout) clearTimeout(this.timeout);
 
     this.timeout = setTimeout(() => {
-      this.request(`/detect.json?text=${value}`, ({ lang }) => {
-        if(this.state.from !== lang) this.setState({ from: lang });
-      });
-      
       this.requestTranslate({ text: value });
     }, 400);
 
@@ -43,14 +39,30 @@ export default class App extends React.Component {
       this.setState({ text: value, result: '' });
     else if(value !== this.state.text)
       this.setState({ text: value });
+
+    this.checkSetLanguageFrom(value);
   };
 
-  сhangeLanguageFrom = ev => {
-    this.requestTranslate({ from: ev.target.value })
+  checkSetLanguageFrom = value => {
+    this.request(`/detect.json?text=${value}`, ({ lang }) => {
+      if(this.state.from !== lang) {
+        const params = this.parseParamsUrl({ 
+          text: this.state.text,
+          from: lang,
+          to: this.state.to
+        });
+        this.setState({ from: lang });
+        history.replaceState(null, null, params);
+      }
+    });
   };
 
-  сhangeLanguageTo = ev => {
-    this.requestTranslate({ to: ev.target.value })
+  setLanguageFrom = ev => {
+    this.requestTranslate({ from: ev.target.value });
+  };
+
+  setLanguageTo = ev => {
+    this.requestTranslate({ to: ev.target.value });
   };
 
   requestTranslate = args => {
@@ -88,7 +100,7 @@ export default class App extends React.Component {
           <SelectLangs
             langs={this.state.langs}
             value={this.state.from}
-            onChange={this.сhangeLanguageFrom}
+            onChange={this.setLanguageFrom}
           />
           <textarea
             className="from-input input"
@@ -103,7 +115,7 @@ export default class App extends React.Component {
           <SelectLangs
             langs={this.state.langs}
             value={this.state.to}
-            onChange={this.сhangeLanguageTo}
+            onChange={this.setLanguageTo}
           />
           <textarea
             className="to-input input"
