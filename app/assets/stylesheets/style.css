@@ -10,9 +10,11 @@
     border-radius: 4px;
 }
 .input {
-    height: 200px;
-    width: calc(100% - 40px);
+    height: 200px !important;
     padding: 20px;
+    border: 0;
+    background-color: transparent;
+    width: calc(100% - 40px) !important;
 }
 select.select {
     width: 100%;
@@ -21,6 +23,17 @@ select.select {
     font-size: 20px;
     padding: 10px;
 }
-[contentEditable=true]:empty:not(:focus):before{
-    content:attr(data-text)
+.to-input {
+    text-rendering: auto;
+    color: initial;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    margin: 0em;
+    font: 400 13.3333px Arial;
+    font-family: monospace;
 }
