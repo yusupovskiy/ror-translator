@@ -13,18 +13,58 @@ export default class Translator extends React.Component {
       to: params.to || 'ru',
       result: '',
     };
-  } 
+    this.locale = 'en';
+  }
 
   componentDidMount() {
-    this.request(`/langs.json?ui=en`, data => {
-      const {dirs, langs} = data
-      this.setState({ dirs, langs });
-    });
+    this.request(`/langs.json?ui=${this.locale}`, ({ dirs, langs }) => this.setState({ dirs, langs }));
 
     if(this.state.text.length > 0) {
-      this.request(`/translate.json${window.location.search}`, data =>  this.setState({ result: data.text }));
+      this.request(`/translate.json${window.location.search}`, ({ text }) => this.setState({ result: text }) );
     }
   }
+
+  parseParamsUrl = obj => `?${queryString.stringify(obj)}`;
+
+  getTranslate = ev => {
+    const { value } = ev.target;
+
+    if(this.timeout) clearTimeout(this.timeout);
+
+    this.timeout = setTimeout(() => {
+      this.request(`/detect.json?text=${value}`, ({ lang }) => {
+        if(this.state.from !== lang) this.setState({ from: lang });
+      });
+      
+      this.requestTranslate({ text: value });
+    }, 400);
+
+    if(value.length === 0)
+      this.setState({ text: value, result: '' });
+    else if(value !== this.state.text)
+      this.setState({ text: value });
+  };
+
+  сhangeLanguageFrom = ev => {
+    this.requestTranslate({ from: ev.target.value })
+  };
+
+  сhangeLanguageTo = ev => {
+    this.requestTranslate({ to: ev.target.value })
+  };
+
+  requestTranslate = args => {
+    const key = Object.keys(args)[0];
+    const params = this.parseParamsUrl({ 
+      text: args.text || this.state.text, 
+      from: args.from || this.state.from, 
+      to: args.to || this.state.to
+    });
+    this.request(`/translate.json${params}`, ({ text }) => {
+      this.setState({ [key]: args[key], result: text });
+      history.replaceState(null, null, params);
+    });
+  };
 
   request = (uri, callback) => {
     fetch(uri)  
@@ -41,44 +81,6 @@ export default class Translator extends React.Component {
       });
   };
 
-  parseParams = obj => `?${queryString.stringify(obj)}`;
-
-  handleChange = ev => {
-    const { value } = ev.target;
-
-    if(this.timeout) clearTimeout(this.timeout);
-
-    this.timeout = setTimeout(() => {
-      this.requestTranslate({ text: value })
-    }, 400);
-
-    if(value.length === 0)
-      this.setState({ text: value, result: '' });
-    else if(value !== this.state.text)
-      this.setState({ text: value });
-  };
-
-  handleSelectFrom = ev => {
-    this.requestTranslate({ from: ev.target.value })
-  };
-
-  handleSelectTo = ev => {
-    this.requestTranslate({ to: ev.target.value })
-  };
-
-  requestTranslate = args => {
-    const key = Object.keys(args)[0];
-    const params = this.parseParams({ 
-      text: args.text || this.state.text, 
-      from: args.from || this.state.from, 
-      to: args.to || this.state.to
-    });
-    this.request(`/translate.json${params}`, data => {
-      this.setState({ [key]: args[key], result: data.text });
-      history.replaceState(null, null, params);
-    });
-  };
-
   render() {
     return (
       <form className="form">
@@ -86,13 +88,13 @@ export default class Translator extends React.Component {
           <SelectLangs
             langs={this.state.langs}
             value={this.state.from}
-            onChange={this.handleSelectFrom}
+            onChange={this.сhangeLanguageFrom}
           />
           <textarea
             className="from-input input"
             placeholder="Введите текст"
             value={this.state.text}
-            onChange={this.handleChange}
+            onChange={this.getTranslate}
           >
           </textarea>
         </div>
@@ -101,7 +103,7 @@ export default class Translator extends React.Component {
           <SelectLangs
             langs={this.state.langs}
             value={this.state.to}
-            onChange={this.handleSelectTo}
+            onChange={this.сhangeLanguageTo}
           />
           <textarea
             className="to-input input"
@@ -118,7 +120,7 @@ export default class Translator extends React.Component {
 function SelectLangs(props) {
   const { langs, ...selectArg } = props;
   return (
-    <select className="select" { ...selectArg } >
+    <select className="select" {...selectArg} >
       {Object.entries(langs).map(([key, val]) => (
           <option key={key} value={key}>{val}</option>
       ))}
