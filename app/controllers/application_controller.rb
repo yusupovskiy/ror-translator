@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   def get_langs
     yt = YandexClient.new()
-    langs = yt.langs
+    langs = yt.langs(ui: params[:ui])
 
     respond_to do |format|
       format.json { render json: langs, status: :ok }

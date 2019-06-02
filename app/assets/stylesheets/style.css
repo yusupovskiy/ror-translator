@@ -1,0 +1,26 @@
+.form {
+    display: flex;
+    width: 1000px;
+    margin: 0 auto;
+}
+.form > div {
+    width: 50%;
+    margin: 10px;
+    background-color: #f4f4f4;
+    border-radius: 4px;
+}
+.input {
+    height: 200px;
+    width: calc(100% - 40px);
+    padding: 20px;
+}
+select.select {
+    width: 100%;
+    border: 0;
+    background-color: transparent;
+    font-size: 20px;
+    padding: 10px;
+}
+[contentEditable=true]:empty:not(:focus):before{
+    content:attr(data-text)
+}
