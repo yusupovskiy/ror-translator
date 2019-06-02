@@ -17,37 +17,34 @@ export default class Translator extends React.Component {
 
   componentDidMount() {
     this.request(`/langs.json?ui=en`, data => {
-      this.setState({
-        dirs: data.dirs,
-        langs: data.langs,
-      })
+      const {dirs, langs} = data
+      this.setState({ dirs, langs });
     });
+
     if(this.state.text.length > 0) {
-      this.request(`/translate.json${window.location.search}`, data => {
-        this.setState({ result: data.text });
-      });
+      this.request(`/translate.json${window.location.search}`, data =>  this.setState({ result: data.text }));
     }
   }
 
   request = (uri, callback) => {
     fetch(uri)  
       .then(response => {  
-          if (response.status !== 200) {  
+          if(response.status !== 200) {  
             console.log('Looks like there was a problem. Status Code: ' +  
-              response.status);  
-            return;  
+              response.status);
+          } else {
+            response.json().then(callback);  
           }
-          response.json().then(callback);  
       })  
       .catch(err => {
-        console.log('Fetch Error :-S', err);  
+        console.log('Fetch Error: ', err);  
       });
   };
 
   parseParams = obj => `?${queryString.stringify(obj)}`;
 
   handleChange = ev => {
-    const value = ev.target.value;
+    const { value } = ev.target;
 
     if(this.timeout) clearTimeout(this.timeout);
 
@@ -55,11 +52,10 @@ export default class Translator extends React.Component {
       this.requestTranslate({ text: value })
     }, 400);
 
-    if(value.length === 0) {
+    if(value.length === 0)
       this.setState({ text: value, result: '' });
-    } else if(value !== this.state.text) {
+    else if(value !== this.state.text)
       this.setState({ text: value });
-    }
   };
 
   handleSelectFrom = ev => {
@@ -122,7 +118,7 @@ export default class Translator extends React.Component {
 function SelectLangs(props) {
   const { langs, ...selectArg } = props;
   return (
-    <select className="select" {...selectArg} >
+    <select className="select" { ...selectArg } >
       {Object.entries(langs).map(([key, val]) => (
           <option key={key} value={key}>{val}</option>
       ))}
