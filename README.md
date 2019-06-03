@@ -1,24 +1,27 @@
-# README
+# RoR Translate
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Тестовое задание для компании Finstar Financial Group.
 
-Things you may want to cover:
+## В приложении реализовано:
 
-* Ruby version
+* API для взаимодействия c Яндекс.Переводчиком
+* Написаны тесты для проверки на RSpec
+* Клиенская часть на ReactJS
 
-* System dependencies
+## Как использовать?
 
-* Configuration
+* В корне приложения в файле .env.example прописать YANDEX_TRAN_API, вставив свой ключ Яндекс АПИ
 
-* Database creation
+YANDEX_TRAN_API=123456789
 
-* Database initialization
+* Запусить bundle install 
 
-* How to run the test suite
+* Затем npm install
 
-* Services (job queues, cache servers, search engines, etc.)
+* Ввести в поле перевода фразу ...
 
-* Deployment instructions
+* И все.
 
-* ...
+## Доступы:
+
+Доступ к приложению по ссылке: https://ror-translator.herokuapp.com/

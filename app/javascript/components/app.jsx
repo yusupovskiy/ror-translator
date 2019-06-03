@@ -13,7 +13,7 @@ export default class App extends React.Component {
       to: params.to || 'ru',
       result: '',
     };
-    this.locale = 'en';
+    this.locale = 'ru';
   }
 
   componentDidMount() {
@@ -57,13 +57,9 @@ export default class App extends React.Component {
     });
   };
 
-  setLanguageFrom = ev => {
-    this.requestTranslate({ from: ev.target.value });
-  };
+  setLanguageFrom = ev => this.requestTranslate({ from: ev.target.value });
 
-  setLanguageTo = ev => {
-    this.requestTranslate({ to: ev.target.value });
-  };
+  setLanguageTo = ev => this.requestTranslate({ to: ev.target.value });
 
   requestTranslate = args => {
     const key = Object.keys(args)[0];
