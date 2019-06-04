@@ -10,9 +10,7 @@
 
 ## Как использовать?
 
-* В корне приложения в файле .env.example прописать YANDEX_TRAN_API, вставив свой ключ Яндекс АПИ
-
-YANDEX_TRAN_API=123456789
+* В корне приложения копировать файл .env.example, и дать имя .env и прописать в YANDEX_TRAN_API свой ключ Yandex Translate API
 
 * Запусить bundle install 
 
