@@ -15,7 +15,7 @@ class YandexClient
   base_uri('https://translate.yandex.net/api/v1.5/tr.json')
   format(:json)
 
-  def initialize(args={})
+  def initialize
     @api_key = ENV['YANDEX_TRAN_API']
   end	
   
