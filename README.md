@@ -16,7 +16,7 @@ YANDEX_TRAN_API=123456789
 
 * Запусить bundle install 
 
-* Затем npm install
+* Затем команду yarn
 
 * Ввести в поле перевода фразу ...
 
