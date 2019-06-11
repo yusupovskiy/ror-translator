@@ -33,7 +33,7 @@ export default class App extends React.Component {
 
     this.timeout = setTimeout(() => {
       this.requestTranslate({ text: value });
-    }, 400);
+    }, 1000);
 
     if(value.length === 0)
       this.setState({ text: value, result: '' });

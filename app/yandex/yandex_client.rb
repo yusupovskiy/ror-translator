@@ -21,6 +21,6 @@ class YandexClient
   
   private
     def request(uri, args = {})
-      self.class.get(uri, query: args.merge(key: @api_key))
+      self.class.post(uri, query: args.merge(key: @api_key))
     end
 end
