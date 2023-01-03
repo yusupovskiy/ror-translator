@@ -5,7 +5,7 @@ ruby '2.4.0'
 
 gem 'rails', '~> 5.2.3'
 
-gem 'httparty', '~> 0.13.7'
+gem 'httparty', '~> 0.21.0'
 gem 'dotenv-rails', '~> 2.2', '>= 2.2.0'
 
 gem 'puma', '~> 3.11'
